@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zone Management</title>
+    <style>
+        body { font-family: Arial; background:#020617; color:white; }
+        input, button { padding:6px; margin:4px; }
+        table { border-collapse: collapse; margin-top:15px; }
+        td, th { border:1px solid #334155; padding:8px; }
+    </style>
+</head>
+<body>
+ <div class="sidebar">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/camera">Camera</a>
+    <a href="/zone">zone</a>
+    <a href="/analytics">Analytics</a>
+    <a href="/threshold">Threshold</a>
+    <a href="/reports">Reports</a>
+    <a href="/logout">Logout</a>
+</div>  
+
+<h2>Zone Management</h2>
+
+{% if error %}
+<p style="color:red">{{ error }}</p>
+{% endif %}
+
+<form method="POST">
+    <input name="name" placeholder="Zone Name">
+    <input name="x1" placeholder="x1">
+    <input name="y1" placeholder="y1">
+    <input name="x2" placeholder="x2">
+    <input name="y2" placeholder="y2">
+    <button type="submit">Add Zone</button>
+</form>
+
+<h3>Existing Zones</h3>
+<table>
+    <th>Action</th>
+    <tr>
+        <th>Name</th>
+        <th>Coordinates</th>
+    </tr>
+    {% for z in zones %}
+<a>
+    <td>{{ z.name }}</td>
+    <td>{{ z.coords }}</td>
+        <a href="/delete_zone/{{ loop.index0 }}"
+           onclick="return confirm('Delete this zone?')"
+           style="color:red;">Delete</a>
+</a>
+</tr>
+{% endfor %}
+</body>
+</html>

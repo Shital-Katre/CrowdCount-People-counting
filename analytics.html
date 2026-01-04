@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analytics - Milestone 4</title>
+    <style>
+        body { margin:0; font-family:Arial; background:#020617; color:white; display:flex; }
+        .sidebar { width:200px; background:#111827; padding:20px; height:100vh; }
+        .sidebar a { display:block; color:white; padding:10px 0; text-decoration:none; }
+        .sidebar a:hover { background:#2563eb; }
+        .main { flex:1; padding:20px; }
+        h2 { margin-bottom:10px; }
+        canvas { background:#1e293b; padding:10px; border-radius:8px; margin-top:20px; }
+    </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/camera">Camera</a>
+    <a href="/zone">Zone</a>
+    <a href="/threshold">Threshold</a>
+    <a href="/analytics">Analytics</a>
+    <a href="/reports">Reports</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="main">
+    <h2>Analytics Overview</h2>
+
+    <!-- Zone Wise People Count -->
+    <h3>Zone Wise People Count</h3>
+    <canvas id="zoneChart" width="500" height="300"></canvas>
+
+    <!-- Hourly Trend -->
+    <h3 style="margin-top:30px;">Hourly Crowd Trend</h3>
+    <canvas id="timeChart" width="500" height="300"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const zoneNames = {{ zone_names | safe }};
+const zoneCounts = {{ zone_counts | safe }};
+
+// Zone-wise bar chart
+const zoneCtx = document.getElementById('zoneChart');
+new Chart(zoneCtx, {
+    type: 'bar',
+    data: {
+        labels: zoneNames,
+        datasets: [{
+            label: 'People Count',
+            data: zoneCounts,
+            backgroundColor: '#2563eb'
+        }]
+    },
+    options: {
+        responsive:true,
+        plugins: { legend: { display:true } },
+        scales: {
+            y: { beginAtZero:true }
+        }
+    }
+});
+
+// Hourly trend line chart (dummy for demo)
+const timeCtx = document.getElementById('timeChart');
+new Chart(timeCtx, {
+    type: 'line',
+    data: {
+        labels: ['6pm','6:15AM','6:20PM','6:30PM','6:35PM','6:40PM'],
+        datasets: [{
+            label: 'People Trend',
+            data: [5, 12, 18, 14, 20, 16],
+            borderColor: '#22c55e',
+            backgroundColor: 'rgba(34,197,94,0.2)',
+            fill:true
+        }]
+    },
+    options: {
+        responsive:true,
+        plugins: { legend: { display:true } },
+        scales: { y: { beginAtZero:true } }
+    }
+});
+</script>
+
+</body>
+</html>

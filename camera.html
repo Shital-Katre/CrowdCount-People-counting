@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Camera Management</title>
+<style>
+body{margin:0;font-family:Arial;background:#020617;color:white;display:flex}
+.sidebar{width:200px;background:#111827;padding:20px;height:100vh}
+.sidebar a{display:block;color:white;padding:10px 0;text-decoration:none}
+.sidebar a:hover{background:#2563eb}
+.main{flex:1;padding:20px}
+input,button{padding:8px;margin:5px 0;width:300px}
+table{margin-top:20px;width:100%;border-collapse:collapse}
+th,td{border:1px solid #1e293b;padding:8px}
+th{background:#1e293b}
+</style>
+</head>
+
+<body>
+<div class="sidebar">
+<div class="sidebar">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/camera">Camera</a>
+    <a href="/zone">zone</a>
+    <a href="/analytics">Analytics</a>
+    <a href="/threshold">Threshold</a>
+    <a href="/reports">Reports</a>
+    <a href="/logout">Logout</a>
+</div>
+</div>
+
+<div class="main">
+<h2>Camera Management </h2>
+
+<form method="POST">
+<input name="id" placeholder="Camera id" required><br>
+<input name="name" placeholder="Camera Name" required><br>
+<input name="source" placeholder="Video Path (videos/file.mp4)" required><br>
+<button type="submit">Add Camera</button>
+</form>
+
+<table>
+<tr><th>Name</th>><th>Status</th><th>Source</th></tr>
+{% for cam in cameras %}
+<tr>
+<td>{{cam.id}}</td>
+<td>{{cam.name}}</td>
+<td>{{cam.status}}</td>
+<td>{{cam.source}}</td>
+</tr>
+{% endfor %}
+</table>
+<p>Note:Dashboard live feed always shows the lasr added camera/video.</p>
+</body>
+</html>

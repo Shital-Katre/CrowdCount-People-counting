@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Milestone 4 Dashboard</title>
+    <style>
+        body { margin:0; font-family:Arial; background:#020617; color:white; display:flex; }
+        .sidebar { width:200px; background:#111827; padding:20px; height:100vh; }
+        .sidebar a { display:block; color:white; padding:10px 0; text-decoration:none; }
+        .sidebar a:hover { background:#2563eb; }
+        .main { flex:1; padding:20px; }
+        .header { font-size:20px; margin-bottom:10px; display:flex; justify-content:space-between; }
+        .card { display:inline-block; background:#1e293b; padding:10px 20px; margin:5px; border-radius:5px; }
+        img { width:100%; border-radius:8px; border:1px solid #1e293b; margin-top:10px; }
+        button { padding:5px 10px; margin:5px; cursor:pointer; }
+    </style>
+</head>
+
+
+<div class="sidebar">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/camera">Camera</a>
+    <a href="/zone">zone</a>
+    <a href="/analytics">Analytics</a>
+    <a href="/threshold">Threshold</a>
+    <a href="/reports">Reports</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="main">
+    <div class="header">
+        <span>Milestone 4 </span>
+        <span>Logout: <a href="/logout">Here</a></span>
+    </div>
+
+    <!-- Cards -->
+    <div class="card">Total Cameras: {{ cameras|length }}</div>
+    <div class="card">Total Zones: {{ zones|length }}</div>
+    <div class="card">Current People Count: {{ counts|length }}</div>
+    <div class="card">Alerts Triggered: {{ logs|length }}</div>
+
+    <!-- Live Video -->
+    <h3>Live Camera Feed</h3>
+    <div class ="card">Alerts Triggered:
+        {{logs|length}}
+    </div>
+    <img src="/video_feed">
+
+
+
+</body>
+</html>

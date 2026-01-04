@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Threshold / Alerts</title>
+    <style>
+        body { font-family: Arial; background:#0f172a; color:white; padding:20px; }
+        table { width:100%; border-collapse:collapse; }
+        th, td { border:1px solid #334155; padding:8px; text-align:center; }
+        th { background:#1e293b; }
+        tr:nth-child(even) { background:#111827; }
+        .threshold-input { width:60px; }
+        button { cursor:pointer; padding:5px 10px; margin:5px; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/camera">Camera</a>
+    <a href="/zone">zone</a>
+    <a href="/analytics">Analytics</a>
+    <a href="/threshold">Threshold</a>
+    <a href="/reports">Reports</a>
+    <a href="/logout">Logout</a>
+</div>
+<h2>Thresholds & Alerts</h2>
+
+<!-- Admin Threshold input -->
+<form id="thresholdForm">
+    <label>Zone: <input type="text" id="zoneName" placeholder="Zone name"></label>
+    <label>Threshold: <input type="number" id="zoneThreshold" class="threshold-input"></label>
+    <button type="button" onclick="setThreshold()">Set Threshold</button>
+</form>
+
+<!-- Alerts Table -->
+<table>
+    <tr>
+        <th>Time</th>
+        <th>Camera</th>
+        <th>Zone</th>
+        <th>Count</th>
+        <th>Threshold</th>
+        <th>Status</th>
+    </tr>
+    {% for alert in alerts %}
+    <tr>
+        <td>{{ alert.time }}</td>
+        <td>{{ alert.camera }}</td>
+        <td>{{ alert.zone }}</td>
+        <td>{{ alert.count }}</td>
+        <td>{{ thresholds[alert.zone] if thresholds[alert.zone] else "N/A" }}</td>
+        <td style="color:red"><b>{{ alert.status }}</b></td>
+    </tr>
+    {% endfor %}
+    {% if alerts|length==0 %}
+    <tr><td colspan="6">No alerts yet</td></tr>
+    {% endif %}
+</table>
+
+<script>
+function setThreshold() {
+    const zone = document.getElementById("zoneName").value.trim();
+    const value = document.getElementById("zoneThreshold").value.trim();
+    if(!zone || !value) { alert("Zone and threshold required"); return; }
+
+    fetch("/api/set_threshold", {
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({zone:zone, value:value})
+    })
+    .then(res => res.json())
+    .then(data => alert(data.status))
+    .catch(err => console.error(err));
+}
+function updateThreshold(zone, value){
+    fetch('/api/set_threshold', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({zone: zone, value: value})
+    }).then(res => res.json())
+      .then(data => {
+        if(data.status === 'success'){
+            alert("Threshold updated: "+zone+" = "+value);
+            location.reload(); // update dashboard cards
+        }
+    });
+}
+</script>
+</body>
+</html>

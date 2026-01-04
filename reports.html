@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reports</title>
+    <style>
+        body { background:#020617; color:white; font-family:Arial; margin:0; padding:20px; }
+        table { width:100%; border-collapse:collapse; margin-top:20px; }
+        th, td { border:1px solid white; padding:10px; text-align:left; }
+        th { background:#111827; }
+        button { padding:5px 10px; margin:5px; cursor:pointer; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/camera">Camera</a>
+    <a href="/zone">zone</a>
+    <a href="/analytics">Analytics</a>
+    <a href="/threshold">Threshold</a>
+    <a href="/reports">Reports</a>
+    <a href="/logout">Logout</a>
+</div>
+    <h2>Reports</h2>
+
+    <table>
+        <tr>
+            <th>Report Type</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>Daily Report</td>
+            <td>Summary of daily counts and alerts</td>
+            <td>Generated</td>
+            <td><button onclick="downloadReport('daily')">Download CSV</button></td>
+        </tr>
+        <tr>
+            <td>Zone Threshold Report</td>
+            <td>Threshold alerts by zone</td>
+            <td>Generated</td>
+            <td><button onclick="downloadReport('threshold')">Download CSV</button></td>
+        </tr>
+        <tr>
+            <td>Camera Activity Report</td>
+            <td>Camera-wise people detection summary</td>
+            <td>Generated</td>
+            <td><button onclick="downloadReport('camera')">Download CSV</button></td>
+        </tr>
+    </table>
+
+    <script>
+        function downloadReport(type){
+            window.location.href = `/export/${type}`;
+        }
+    </script>
+</body>
+</html>
